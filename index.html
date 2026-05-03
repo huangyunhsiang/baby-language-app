@@ -1,0 +1,1185 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>寶寶語言啟蒙</title>
+  <style>
+    :root {
+      --sun: #ffd84d;
+      --coral: #ff6b6b;
+      --mint: #54d8a8;
+      --sky: #5ab7ff;
+      --ink: #23314d;
+      --soft: #fff7df;
+      --cream: #fffdf5;
+      --line: rgba(35, 49, 77, .12);
+      --shadow: 0 16px 32px rgba(35, 49, 77, .14);
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: system-ui, -apple-system, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background:
+        radial-gradient(circle at 18% 8%, rgba(255, 216, 77, .45), transparent 28%),
+        radial-gradient(circle at 86% 18%, rgba(90, 183, 255, .35), transparent 24%),
+        linear-gradient(180deg, #fffaf0 0%, #eefbff 100%);
+      overflow-x: hidden;
+    }
+
+    button,
+    select {
+      font: inherit;
+    }
+
+    .app {
+      width: min(100%, 980px);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 18px 14px 96px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      flex: 0 0 auto;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--sun), var(--coral));
+      box-shadow: var(--shadow);
+      font-size: 30px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.35rem, 5vw, 2rem);
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 4px 0 0;
+      color: #5d6a80;
+      font-size: .95rem;
+      font-weight: 700;
+    }
+
+    .pill {
+      border: 0;
+      border-radius: 999px;
+      color: var(--ink);
+      background: #fff;
+      padding: 10px 14px;
+      box-shadow: 0 10px 24px rgba(35, 49, 77, .1);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .panel {
+      display: none;
+      animation: rise .28s ease both;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-card,
+    .tool-panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-card {
+      padding: 14px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .segmented {
+      display: flex;
+      gap: 7px;
+      padding: 6px;
+      border-radius: 18px;
+      background: rgba(35, 49, 77, .08);
+    }
+
+    .segmented button,
+    .icon-button,
+    .primary-button,
+    .round-button {
+      border: 0;
+      cursor: pointer;
+      color: var(--ink);
+      font-weight: 950;
+    }
+
+    .segmented button {
+      min-height: 42px;
+      padding: 0 12px;
+      border-radius: 13px;
+      background: transparent;
+    }
+
+    .segmented button.active {
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(35, 49, 77, .12);
+    }
+
+    .primary-button {
+      min-height: 48px;
+      border-radius: 16px;
+      padding: 0 16px;
+      background: linear-gradient(135deg, var(--sun), #ff9f43);
+      box-shadow: 0 12px 22px rgba(255, 159, 67, .28);
+    }
+
+    .question-box {
+      display: grid;
+      gap: 8px;
+      margin: 0 0 14px;
+      padding: 16px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #ffffff, #eaf8ff);
+      border: 2px solid rgba(90, 183, 255, .25);
+    }
+
+    .prompt {
+      margin: 0;
+      font-size: clamp(1.45rem, 7vw, 2.6rem);
+      line-height: 1.15;
+      font-weight: 1000;
+    }
+
+    .feedback {
+      min-height: 28px;
+      color: #58667b;
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(var(--cols, 1), minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .flash-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 280px;
+      border: 0;
+      border-radius: 26px;
+      background: #fff;
+      box-shadow: 0 14px 26px rgba(35, 49, 77, .14);
+      cursor: pointer;
+      transform: translateZ(0);
+    }
+
+    .flash-card img {
+      width: 100%;
+      height: 215px;
+      display: block;
+      object-fit: cover;
+      filter: saturate(1.18) contrast(1.08);
+      background: #eaf8ff;
+    }
+
+    .card-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px 14px;
+    }
+
+    .word {
+      font-size: clamp(1.75rem, 8vw, 3.1rem);
+      font-weight: 1000;
+      line-height: 1;
+    }
+
+    .bopomo {
+      color: #e74c3c;
+      font-size: clamp(1.05rem, 4vw, 1.45rem);
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .flash-card.correct {
+      animation: flash .7s ease;
+    }
+
+    .flash-card.wrong {
+      animation: shake .45s ease;
+    }
+
+    @keyframes flash {
+      0%, 100% { box-shadow: 0 14px 26px rgba(35, 49, 77, .14); }
+      35% { box-shadow: 0 0 0 10px rgba(84, 216, 168, .4), 0 0 35px rgba(255, 216, 77, .8); transform: scale(1.025); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+
+    .category-strip,
+    .sound-strip {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 4px 2px 12px;
+      scrollbar-width: none;
+    }
+
+    .category-strip::-webkit-scrollbar,
+    .sound-strip::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip,
+    .sound-chip {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(35, 49, 77, .1);
+      color: var(--ink);
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .chip.active,
+    .sound-chip.active {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .tool-panel {
+      padding: 16px;
+    }
+
+    .mouth-layout {
+      display: grid;
+      gap: 16px;
+    }
+
+    .sound-title {
+      text-align: center;
+      font-size: clamp(3.3rem, 17vw, 6rem);
+      font-weight: 1000;
+      line-height: 1;
+      margin: 14px 0 6px;
+      color: #ff5a57;
+      text-shadow: 0 8px 0 rgba(255, 216, 77, .5);
+    }
+
+    .hint-text {
+      text-align: center;
+      margin: 0 auto 12px;
+      max-width: 28rem;
+      color: #5d6a80;
+      font-weight: 850;
+      font-size: 1.05rem;
+    }
+
+    .mouth-stage {
+      display: grid;
+      place-items: center;
+      min-height: 250px;
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, .9), rgba(255, 247, 223, .9)),
+        repeating-linear-gradient(45deg, transparent 0 12px, rgba(255, 216, 77, .12) 12px 24px);
+      border: 2px solid rgba(255, 216, 77, .45);
+    }
+
+    .face {
+      position: relative;
+      width: min(72vw, 280px);
+      aspect-ratio: 1;
+      border-radius: 46% 46% 50% 50%;
+      background: #ffd0b8;
+      box-shadow: inset 0 -18px 0 rgba(218, 116, 91, .15);
+    }
+
+    .eye {
+      position: absolute;
+      top: 32%;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--ink);
+    }
+
+    .eye.left { left: 30%; }
+    .eye.right { right: 30%; }
+
+    .mouth {
+      position: absolute;
+      left: 50%;
+      top: 58%;
+      width: 98px;
+      height: 48px;
+      border-radius: 12px 12px 48px 48px;
+      background: #8f2744;
+      transform: translateX(-50%);
+      overflow: hidden;
+      animation: mouthOpen 2.6s ease-in-out infinite;
+    }
+
+    .mouth::after {
+      content: "";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: -8px;
+      height: 24px;
+      border-radius: 50% 50% 0 0;
+      background: #ff86a0;
+    }
+
+    .mouth.bilabial {
+      height: 16px;
+      border-radius: 999px;
+      animation-name: lipsPress;
+    }
+
+    .mouth.tongue {
+      animation-name: tongueTap;
+    }
+
+    .mouth.back {
+      animation-name: backOpen;
+    }
+
+    @keyframes mouthOpen {
+      0%, 100% { height: 14px; width: 88px; }
+      48% { height: 58px; width: 104px; }
+    }
+
+    @keyframes lipsPress {
+      0%, 100% { height: 10px; width: 96px; }
+      45% { height: 42px; width: 92px; }
+    }
+
+    @keyframes tongueTap {
+      0%, 100% { height: 18px; width: 94px; }
+      45% { height: 54px; width: 100px; }
+    }
+
+    @keyframes backOpen {
+      0%, 100% { height: 20px; width: 86px; }
+      50% { height: 62px; width: 112px; }
+    }
+
+    .profile-card {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 22px;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    .profile-title {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 1000;
+    }
+
+    .mouth-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 18px;
+      background: #f8fcff;
+    }
+
+    .tongue {
+      transform-origin: 116px 132px;
+      animation: tongueMove 2.6s ease-in-out infinite;
+    }
+
+    .tongue.bilabial { animation-name: tongueRest; }
+    .tongue.back { animation-name: tongueBack; }
+
+    @keyframes tongueMove {
+      0%, 100% { transform: translateY(8px); }
+      45% { transform: translateY(-18px) rotate(-8deg); }
+    }
+
+    @keyframes tongueRest {
+      0%, 100% { transform: translateY(8px); }
+      45% { transform: translateY(4px); }
+    }
+
+    @keyframes tongueBack {
+      0%, 100% { transform: translate(4px, 8px); }
+      45% { transform: translate(-12px, -10px) rotate(8deg); }
+    }
+
+    .record-row {
+      display: grid;
+      grid-template-columns: 72px 1fr 72px;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .round-button,
+    .icon-button {
+      display: grid;
+      place-items: center;
+      background: #fff;
+      box-shadow: 0 10px 20px rgba(35, 49, 77, .12);
+    }
+
+    .round-button {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      font-size: 2rem;
+    }
+
+    .round-button.recording {
+      background: var(--coral);
+      color: #fff;
+      animation: pulse 1s ease infinite;
+    }
+
+    @keyframes pulse {
+      50% { transform: scale(1.08); }
+    }
+
+    .audio-player {
+      width: 100%;
+    }
+
+    .story-layout {
+      display: grid;
+      gap: 14px;
+    }
+
+    .song-card {
+      padding: 16px;
+      border-radius: 24px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+    }
+
+    .song-title {
+      margin: 0 0 8px;
+      font-size: clamp(1.8rem, 8vw, 3rem);
+      font-weight: 1000;
+      color: #2f5fc2;
+    }
+
+    .lyric-line {
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 18px;
+      background: #f3fbff;
+      color: #5d6a80;
+      font-size: clamp(1.3rem, 6vw, 2.1rem);
+      font-weight: 950;
+      line-height: 1.35;
+      transition: .25s ease;
+    }
+
+    .lyric-line.active {
+      color: var(--ink);
+      background: #fff4b8;
+      transform: scale(1.015);
+      box-shadow: 0 10px 20px rgba(255, 216, 77, .24);
+    }
+
+    .blank {
+      display: inline-block;
+      min-width: 3.2em;
+      padding: 0 8px;
+      margin: 0 2px;
+      border-radius: 12px;
+      color: #fff;
+      background: var(--coral);
+      animation: blink 1s ease infinite;
+    }
+
+    @keyframes blink {
+      50% { background: var(--sky); transform: translateY(-2px); }
+    }
+
+    .beat-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 0 4px;
+    }
+
+    .beat {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--mint);
+      opacity: .55;
+      transform: scale(.8);
+    }
+
+    .beat.on {
+      opacity: 1;
+      transform: scale(1.45);
+      background: var(--coral);
+      box-shadow: 0 0 0 8px rgba(255, 107, 107, .18);
+    }
+
+    .bottom-tabs {
+      position: fixed;
+      left: 50%;
+      bottom: max(12px, env(safe-area-inset-bottom));
+      z-index: 30;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      width: min(calc(100% - 20px), 720px);
+      padding: 8px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, .88);
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 36px rgba(35, 49, 77, .2);
+      backdrop-filter: blur(14px);
+      transform: translateX(-50%);
+    }
+
+    .tab-button {
+      display: grid;
+      place-items: center;
+      gap: 3px;
+      min-height: 62px;
+      border: 0;
+      border-radius: 18px;
+      background: transparent;
+      color: #5d6a80;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    .tab-button.active {
+      color: var(--ink);
+      background: linear-gradient(135deg, #fff0a6, #c8f4ff);
+    }
+
+    .tab-icon {
+      font-size: 1.45rem;
+      line-height: 1;
+    }
+
+    .celebration-layer {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 45;
+      overflow: hidden;
+    }
+
+    .spark {
+      position: absolute;
+      font-size: 28px;
+      animation: pop 1.4s ease-out forwards;
+    }
+
+    @keyframes pop {
+      0% { transform: translateY(0) scale(.4) rotate(0); opacity: 0; }
+      18% { opacity: 1; }
+      100% { transform: translateY(-160px) scale(1.25) rotate(240deg); opacity: 0; }
+    }
+
+    @media (min-width: 680px) {
+      .app {
+        padding-top: 28px;
+      }
+
+      .hero-card,
+      .tool-panel {
+        padding: 22px;
+      }
+
+      .cards-grid {
+        gap: 18px;
+      }
+
+      .mouth-layout,
+      .story-layout {
+        grid-template-columns: 1.1fr .9fr;
+        align-items: start;
+      }
+
+      .profile-card {
+        align-self: stretch;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .topbar {
+        align-items: flex-start;
+      }
+
+      .brand-mark {
+        width: 48px;
+        height: 48px;
+      }
+
+      .pill {
+        padding: 8px 10px;
+        font-size: .86rem;
+      }
+
+      .flash-card {
+        min-height: 245px;
+      }
+
+      .flash-card img {
+        height: 188px;
+      }
+
+      .tab-button {
+        font-size: .82rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="celebration-layer" id="celebrationLayer" aria-hidden="true"></div>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">呀</div>
+        <div>
+          <h1>寶寶語言啟蒙</h1>
+          <p class="subtitle">6-18 個月 · 看圖、聽音、跟著說</p>
+        </div>
+      </div>
+      <button class="pill" id="voiceButton" type="button">🔊 試聽</button>
+    </header>
+
+    <section class="panel active" id="flashPanel" aria-labelledby="flashTitle">
+      <div class="hero-card">
+        <div class="toolbar">
+          <div>
+            <h2 id="flashTitle" class="prompt">找一找</h2>
+            <div class="feedback" id="flashFeedback">點圖片聽發音，再玩問答。</div>
+          </div>
+          <div class="segmented" aria-label="難度">
+            <button class="active" data-level="1" type="button">Level 1</button>
+            <button data-level="2" type="button">Level 2</button>
+            <button data-level="3" type="button">Level 3</button>
+          </div>
+        </div>
+
+        <div class="category-strip" id="categoryStrip" aria-label="詞彙分類"></div>
+
+        <div class="question-box">
+          <p class="prompt" id="questionText">小手點一點：狗狗在哪裡？</p>
+          <button class="primary-button" id="nextQuestion" type="button">換一題</button>
+        </div>
+
+        <div class="cards-grid" id="cardsGrid" style="--cols: 1"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="mouthPanel" aria-labelledby="mouthTitle">
+      <div class="tool-panel">
+        <h2 id="mouthTitle" class="prompt">慢慢看嘴巴</h2>
+        <p class="feedback">先看嘴型，再按喇叭聽一次。</p>
+        <div class="sound-strip" id="soundStrip" aria-label="發音選擇"></div>
+        <div class="mouth-layout">
+          <div>
+            <div class="sound-title" id="currentSound">ㄇㄚ</div>
+            <p class="hint-text" id="mouthHint">雙唇輕輕合起來，再張開說「ㄚ」。</p>
+            <div class="mouth-stage">
+              <div class="face" aria-label="正面嘴型動畫">
+                <span class="eye left"></span>
+                <span class="eye right"></span>
+                <span class="mouth bilabial" id="frontMouth"></span>
+              </div>
+            </div>
+            <div class="record-row">
+              <button class="round-button" id="speakSound" type="button" aria-label="播放示範">🔊</button>
+              <audio class="audio-player" id="babyAudio" controls></audio>
+              <button class="round-button" id="recordButton" type="button" aria-label="錄音">🎙️</button>
+            </div>
+          </div>
+
+          <div class="profile-card">
+            <p class="profile-title">側面嘴型剖面</p>
+            <svg class="mouth-svg" viewBox="0 0 320 220" role="img" aria-label="舌頭位置示意圖">
+              <rect width="320" height="220" rx="18" fill="#f8fcff"></rect>
+              <path d="M60 80 C86 36, 168 28, 216 58 C248 78, 252 122, 226 150 C190 188, 104 182, 70 144 C52 124, 48 104, 60 80Z" fill="#ffd0b8" stroke="#d47b63" stroke-width="4"></path>
+              <path d="M202 100 C232 94, 252 100, 270 116 C250 134, 226 138, 198 130" fill="#8f2744" stroke="#6f1d34" stroke-width="4"></path>
+              <path d="M86 138 C124 122, 164 124, 202 138 C178 164, 122 168, 86 138Z" fill="#ff86a0" class="tongue bilabial" id="sideTongue"></path>
+              <path d="M93 72 C116 62, 150 60, 176 72" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"></path>
+              <circle cx="128" cy="82" r="8" fill="#23314d"></circle>
+              <line x1="62" y1="188" x2="258" y2="188" stroke="#23314d" stroke-width="3" stroke-linecap="round"></line>
+              <text x="62" y="207" fill="#23314d" font-size="18" font-weight="900">嘴唇</text>
+              <text x="144" y="207" fill="#e74c3c" font-size="18" font-weight="900">舌頭位置</text>
+              <text x="238" y="207" fill="#23314d" font-size="18" font-weight="900">氣流</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="storyPanel" aria-labelledby="storyTitle">
+      <div class="tool-panel">
+        <div class="toolbar">
+          <div>
+            <h2 id="storyTitle" class="prompt">唱唱接話</h2>
+            <div class="feedback">關鍵詞會亮起來，留給寶寶接一句。</div>
+          </div>
+          <button class="primary-button" id="playSong" type="button">播放旋律</button>
+        </div>
+        <div class="category-strip" id="songStrip" aria-label="兒歌選擇"></div>
+        <div class="story-layout">
+          <div class="song-card">
+            <h3 class="song-title" id="songTitle"></h3>
+            <div id="lyrics"></div>
+            <div class="beat-row" id="beatRow" aria-hidden="true"></div>
+          </div>
+          <div class="song-card">
+            <h3 class="song-title">互動繪本</h3>
+            <p class="lyric-line active" id="storyCue">小手拍拍，跟著節奏亮起來。</p>
+            <p class="lyric-line">看到反白的字，可以停一下，等寶寶發出聲音。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-tabs" aria-label="主要功能">
+    <button class="tab-button active" data-tab="flashPanel" type="button"><span class="tab-icon">🖼️</span><span>看圖</span></button>
+    <button class="tab-button" data-tab="mouthPanel" type="button"><span class="tab-icon">👄</span><span>嘴型</span></button>
+    <button class="tab-button" data-tab="storyPanel" type="button"><span class="tab-icon">🎵</span><span>兒歌</span></button>
+  </nav>
+
+  <script>
+    const vocab = [
+      { word: "狗狗", bopomo: "ㄍㄡˇ ㄍㄡˇ", category: "動物", q: "狗狗在哪裡？", image: "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=900&q=80" },
+      { word: "貓咪", bopomo: "ㄇㄠ ㄇㄧ", category: "動物", q: "貓咪在哪裡？", image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=900&q=80" },
+      { word: "小鳥", bopomo: "ㄒㄧㄠˇ ㄋㄧㄠˇ", category: "動物", q: "小鳥在哪裡？", image: "https://images.unsplash.com/photo-1444464666168-49d633b86797?auto=format&fit=crop&w=900&q=80" },
+      { word: "兔兔", bopomo: "ㄊㄨˋ ㄊㄨˋ", category: "動物", q: "兔兔在哪裡？", image: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?auto=format&fit=crop&w=900&q=80" },
+      { word: "鴨鴨", bopomo: "ㄧㄚ ㄧㄚ", category: "動物", q: "鴨鴨在哪裡？", image: "https://images.unsplash.com/photo-1563409236302-8442b5e644df?auto=format&fit=crop&w=900&q=80" },
+      { word: "香蕉", bopomo: "ㄅㄚ ㄋㄚˊ ㄋㄚˋ", category: "食物", q: "香蕉在哪裡？", image: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=900&q=80" },
+      { word: "蘋果", bopomo: "ㄆㄧㄥˊ ㄍㄨㄛˇ", category: "食物", q: "蘋果在哪裡？", image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=900&q=80" },
+      { word: "牛奶", bopomo: "ㄋㄧㄡˊ ㄋㄞˇ", category: "食物", q: "牛奶在哪裡？", image: "https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=900&q=80" },
+      { word: "麵包", bopomo: "ㄇㄧㄢˋ ㄅㄠ", category: "食物", q: "麵包在哪裡？", image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=80" },
+      { word: "水水", bopomo: "ㄕㄨㄟˇ ㄕㄨㄟˇ", category: "食物", q: "水水在哪裡？", image: "https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&w=900&q=80" },
+      { word: "眼睛", bopomo: "ㄧㄢˇ ㄐㄧㄥ", category: "身體", q: "眼睛在哪裡？", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80" },
+      { word: "鼻子", bopomo: "ㄅㄧˊ ㄗ˙", category: "身體", q: "鼻子在哪裡？", image: "https://images.unsplash.com/photo-1525268771113-32d9e9021a97?auto=format&fit=crop&w=900&q=80" },
+      { word: "嘴巴", bopomo: "ㄗㄨㄟˇ ㄅㄚ", category: "身體", q: "嘴巴在哪裡？", image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=80" },
+      { word: "小手", bopomo: "ㄒㄧㄠˇ ㄕㄡˇ", category: "身體", q: "小手在哪裡？", image: "https://images.unsplash.com/photo-1491013516836-7db643ee125a?auto=format&fit=crop&w=900&q=80" },
+      { word: "腳腳", bopomo: "ㄐㄧㄠˇ ㄐㄧㄠˇ", category: "身體", q: "腳腳在哪裡？", image: "https://images.unsplash.com/photo-1522771930-78848d9293e8?auto=format&fit=crop&w=900&q=80" },
+      { word: "球球", bopomo: "ㄑㄧㄡˊ ㄑㄧㄡˊ", category: "日常用品", q: "球球在哪裡？", image: "https://images.unsplash.com/photo-1516567727245-ad8c68f3ec93?auto=format&fit=crop&w=900&q=80" },
+      { word: "杯杯", bopomo: "ㄅㄟ ㄅㄟ", category: "日常用品", q: "杯杯在哪裡？", image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=900&q=80" },
+      { word: "車車", bopomo: "ㄔㄜ ㄔㄜ", category: "日常用品", q: "車車在哪裡？", image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80" },
+      { word: "書書", bopomo: "ㄕㄨ ㄕㄨ", category: "日常用品", q: "書書在哪裡？", image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=900&q=80" },
+      { word: "鞋鞋", bopomo: "ㄒㄧㄝˊ ㄒㄧㄝˊ", category: "日常用品", q: "鞋鞋在哪裡？", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80" }
+    ];
+
+    const sounds = [
+      { text: "ㄇㄚ", say: "媽", type: "bilabial", hint: "雙唇輕輕合起來，再張開說「ㄚ」。" },
+      { text: "ㄅㄚ", say: "爸", type: "bilabial", hint: "嘴唇先閉住，短短打開，像小泡泡。" },
+      { text: "ㄆㄚ", say: "趴", type: "bilabial", hint: "嘴唇打開時，讓一點點氣跑出來。" },
+      { text: "ㄉㄚ", say: "搭", type: "tongue", hint: "舌尖碰一下上面，再放開說「ㄚ」。" },
+      { text: "ㄊㄚ", say: "他", type: "tongue", hint: "舌尖輕點上方，放開時多一點氣。" },
+      { text: "ㄍㄚ", say: "嘎", type: "back", hint: "舌頭後面抬起來，再放開說「ㄚ」。" }
+    ];
+
+    const songs = [
+      {
+        title: "兩隻老虎",
+        blank: "老虎",
+        notes: [261.63, 293.66, 329.63, 261.63, 261.63, 293.66, 329.63, 261.63, 329.63, 349.23, 392, 329.63, 349.23, 392],
+        lines: ["兩隻__，兩隻__", "跑得快，跑得快", "一隻沒有耳朵", "一隻沒有尾巴", "真奇怪，真奇怪"]
+      },
+      {
+        title: "小星星",
+        blank: "星星",
+        notes: [261.63, 261.63, 392, 392, 440, 440, 392, 349.23, 349.23, 329.63, 329.63, 293.66, 293.66, 261.63],
+        lines: ["一閃一閃亮晶晶", "滿天都是小__", "掛在天空放光明", "好像許多小眼睛"]
+      },
+      {
+        title: "拔蘿蔔",
+        blank: "蘿蔔",
+        notes: [392, 392, 440, 392, 329.63, 349.23, 392, 261.63, 293.66, 329.63, 349.23, 392],
+        lines: ["拔__，拔__", "嘿喲嘿喲拔不動", "大家一起來幫忙", "嘿喲嘿喲拔出來"]
+      },
+      {
+        title: "頭耳肩膀膝腳趾",
+        blank: "膝",
+        notes: [392, 329.63, 329.63, 349.23, 293.66, 293.66, 261.63, 293.66, 329.63, 349.23, 392],
+        lines: ["頭、耳、肩膀、__、腳趾", "眼睛、耳朵、鼻子、嘴", "頭、耳、肩膀、膝、腳趾", "跟著節奏動一動"]
+      },
+      {
+        title: "生日快樂",
+        blank: "快樂",
+        notes: [261.63, 261.63, 293.66, 261.63, 349.23, 329.63, 261.63, 261.63, 293.66, 261.63, 392, 349.23],
+        lines: ["祝你生日__", "祝你生日__", "祝親愛的寶寶", "祝你生日快樂"]
+      }
+    ];
+
+    const state = {
+      level: 1,
+      category: "全部",
+      target: vocab[0],
+      options: [],
+      soundIndex: 0,
+      songIndex: 0,
+      lyricTimer: null,
+      audioContext: null,
+      mediaRecorder: null,
+      chunks: []
+    };
+
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+    function shuffle(items) {
+      return [...items].sort(() => Math.random() - 0.5);
+    }
+
+    function speak(text, rate = 0.78) {
+      if (!("speechSynthesis" in window)) return;
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = "zh-TW";
+      utter.rate = rate;
+      utter.pitch = 1.18;
+      window.speechSynthesis.speak(utter);
+    }
+
+    function ensureAudio() {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return null;
+      if (!state.audioContext) state.audioContext = new AudioContext();
+      if (state.audioContext.state === "suspended") state.audioContext.resume();
+      return state.audioContext;
+    }
+
+    function playTone(freq, start, duration, type = "sine", gainValue = 0.1) {
+      const ctx = ensureAudio();
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type;
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.001, start);
+      gain.gain.exponentialRampToValueAtTime(gainValue, start + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + duration);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(start);
+      osc.stop(start + duration + 0.03);
+    }
+
+    function giggle() {
+      const ctx = ensureAudio();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      [520, 660, 590, 740].forEach((freq, index) => {
+        playTone(freq, now + index * 0.09, 0.08, "triangle", 0.08);
+      });
+    }
+
+    function wrongSound() {
+      const ctx = ensureAudio();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      playTone(180, now, 0.12, "sawtooth", 0.05);
+      playTone(140, now + 0.11, 0.12, "sawtooth", 0.04);
+    }
+
+    function celebrate(count = 18) {
+      const layer = $("#celebrationLayer");
+      const marks = ["★", "✦", "✹", "✿", "●"];
+      for (let i = 0; i < count; i++) {
+        const spark = document.createElement("span");
+        spark.className = "spark";
+        spark.textContent = marks[Math.floor(Math.random() * marks.length)];
+        spark.style.left = `${Math.random() * 92 + 2}%`;
+        spark.style.top = `${Math.random() * 42 + 48}%`;
+        spark.style.color = ["#ff6b6b", "#ffd84d", "#54d8a8", "#5ab7ff", "#8e6cff"][i % 5];
+        spark.style.animationDelay = `${Math.random() * 0.25}s`;
+        layer.appendChild(spark);
+        setTimeout(() => spark.remove(), 1700);
+      }
+    }
+
+    function buildCategories() {
+      const categories = ["全部", ...new Set(vocab.map((item) => item.category))];
+      $("#categoryStrip").innerHTML = categories.map((cat) =>
+        `<button class="chip ${cat === state.category ? "active" : ""}" data-category="${cat}" type="button">${cat}</button>`
+      ).join("");
+      $$("#categoryStrip .chip").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.category = button.dataset.category;
+          buildCategories();
+          newQuestion();
+        });
+      });
+    }
+
+    function pool() {
+      return state.category === "全部" ? vocab : vocab.filter((item) => item.category === state.category);
+    }
+
+    function newQuestion() {
+      const items = pool();
+      state.target = shuffle(items)[0] || vocab[0];
+      const count = state.level === 1 ? 1 : state.level === 2 ? 2 : 4;
+      const distractors = shuffle(vocab.filter((item) => item.word !== state.target.word)).slice(0, count - 1);
+      state.options = shuffle([state.target, ...distractors]);
+      $("#questionText").textContent = state.level === 1 ? `看一看：${state.target.word}` : state.target.q;
+      $("#flashFeedback").textContent = state.level === 1 ? "點圖片，聽聽正確發音。" : "聽問題，找到正確圖片。";
+      renderCards();
+      setTimeout(() => speak(state.level === 1 ? state.target.word : state.target.q, 0.72), 220);
+    }
+
+    function renderCards() {
+      const grid = $("#cardsGrid");
+      grid.style.setProperty("--cols", state.level === 3 ? 2 : state.level);
+      grid.innerHTML = state.options.map((item) => `
+        <button class="flash-card" data-word="${item.word}" type="button" aria-label="${item.word}">
+          <img src="${item.image}" alt="${item.word}" loading="lazy">
+          <span class="card-label">
+            <span class="word">${item.word}</span>
+            <span class="bopomo">${item.bopomo}</span>
+          </span>
+        </button>
+      `).join("");
+
+      $$(".flash-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const selected = card.dataset.word;
+          const item = vocab.find((entry) => entry.word === selected);
+          speak(item.word, 0.72);
+          card.classList.remove("correct", "wrong");
+          void card.offsetWidth;
+
+          if (state.level === 1 || selected === state.target.word) {
+            card.classList.add("correct");
+            $("#flashFeedback").textContent = `好棒，這是「${item.word}」！`;
+            giggle();
+            celebrate(14);
+            if (state.level > 1) setTimeout(newQuestion, 1200);
+          } else {
+            card.classList.add("wrong");
+            $("#flashFeedback").textContent = "再試一次，慢慢找。";
+            wrongSound();
+          }
+        });
+      });
+    }
+
+    function setupFlash() {
+      buildCategories();
+      $$(".segmented button").forEach((button) => {
+        button.addEventListener("click", () => {
+          $$(".segmented button").forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
+          state.level = Number(button.dataset.level);
+          newQuestion();
+        });
+      });
+      $("#nextQuestion").addEventListener("click", newQuestion);
+      newQuestion();
+    }
+
+    function setupMouth() {
+      $("#soundStrip").innerHTML = sounds.map((sound, index) =>
+        `<button class="sound-chip ${index === 0 ? "active" : ""}" data-index="${index}" type="button">${sound.text}</button>`
+      ).join("");
+      $$("#soundStrip .sound-chip").forEach((button) => {
+        button.addEventListener("click", () => setSound(Number(button.dataset.index)));
+      });
+      $("#speakSound").addEventListener("click", () => speak(sounds[state.soundIndex].say, 0.62));
+      $("#recordButton").addEventListener("click", toggleRecording);
+      setSound(0);
+    }
+
+    function setSound(index) {
+      state.soundIndex = index;
+      const sound = sounds[index];
+      $("#currentSound").textContent = sound.text;
+      $("#mouthHint").textContent = sound.hint;
+      $("#frontMouth").className = `mouth ${sound.type}`;
+      $("#sideTongue").setAttribute("class", `tongue ${sound.type}`);
+      $$("#soundStrip .sound-chip").forEach((button) => button.classList.toggle("active", Number(button.dataset.index) === index));
+      speak(sound.say, 0.62);
+    }
+
+    async function toggleRecording() {
+      const button = $("#recordButton");
+      if (state.mediaRecorder && state.mediaRecorder.state === "recording") {
+        state.mediaRecorder.stop();
+        return;
+      }
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        $("#mouthHint").textContent = "這個瀏覽器不支援錄音，可以先看嘴型跟著念。";
+        return;
+      }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        state.chunks = [];
+        state.mediaRecorder = new MediaRecorder(stream);
+        state.mediaRecorder.ondataavailable = (event) => state.chunks.push(event.data);
+        state.mediaRecorder.onstop = () => {
+          const blob = new Blob(state.chunks, { type: "audio/webm" });
+          $("#babyAudio").src = URL.createObjectURL(blob);
+          button.classList.remove("recording");
+          button.textContent = "🎙️";
+          stream.getTracks().forEach((track) => track.stop());
+          celebrate(20);
+        };
+        state.mediaRecorder.start();
+        button.classList.add("recording");
+        button.textContent = "■";
+        setTimeout(() => {
+          if (state.mediaRecorder && state.mediaRecorder.state === "recording") state.mediaRecorder.stop();
+        }, 5000);
+      } catch (error) {
+        $("#mouthHint").textContent = "請允許麥克風權限，就能錄下寶寶的聲音。";
+      }
+    }
+
+    function setupSongs() {
+      $("#songStrip").innerHTML = songs.map((song, index) =>
+        `<button class="chip ${index === 0 ? "active" : ""}" data-index="${index}" type="button">${song.title}</button>`
+      ).join("");
+      for (let i = 0; i < 6; i++) {
+        const beat = document.createElement("span");
+        beat.className = "beat";
+        $("#beatRow").appendChild(beat);
+      }
+      $$("#songStrip .chip").forEach((button) => {
+        button.addEventListener("click", () => setSong(Number(button.dataset.index)));
+      });
+      $("#playSong").addEventListener("click", playSong);
+      setSong(0);
+    }
+
+    function setSong(index) {
+      state.songIndex = index;
+      const song = songs[index];
+      $("#songTitle").textContent = song.title;
+      $("#lyrics").innerHTML = song.lines.map((line, lineIndex) =>
+        `<p class="lyric-line ${lineIndex === 0 ? "active" : ""}">${line.replaceAll("__", `<span class="blank">${song.blank}</span>`)}</p>`
+      ).join("");
+      $$("#songStrip .chip").forEach((button) => button.classList.toggle("active", Number(button.dataset.index) === index));
+      resetBeats();
+    }
+
+    function resetBeats() {
+      $$("#beatRow .beat").forEach((beat) => beat.classList.remove("on"));
+    }
+
+    function playSong() {
+      const song = songs[state.songIndex];
+      const ctx = ensureAudio();
+      if (!ctx) return;
+      const now = ctx.currentTime + 0.04;
+      const step = 0.34;
+      song.notes.forEach((note, index) => {
+        playTone(note, now + index * step, step * 0.82, "sine", 0.11);
+      });
+      animateLyrics(song.notes.length, step);
+      celebrate(22);
+    }
+
+    function animateLyrics(noteCount, step) {
+      clearInterval(state.lyricTimer);
+      const lines = $$("#lyrics .lyric-line");
+      const beats = $$("#beatRow .beat");
+      let tick = 0;
+      state.lyricTimer = setInterval(() => {
+        lines.forEach((line, index) => line.classList.toggle("active", index === Math.floor((tick / Math.max(noteCount, 1)) * lines.length)));
+        beats.forEach((beat, index) => beat.classList.toggle("on", index === tick % beats.length));
+        tick += 1;
+        if (tick > noteCount + 3) {
+          clearInterval(state.lyricTimer);
+          resetBeats();
+        }
+      }, step * 1000);
+    }
+
+    function setupTabs() {
+      $$(".tab-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          $$(".tab-button").forEach((tab) => tab.classList.remove("active"));
+          $$(".panel").forEach((panel) => panel.classList.remove("active"));
+          button.classList.add("active");
+          $(`#${button.dataset.tab}`).classList.add("active");
+        });
+      });
+    }
+
+    $("#voiceButton").addEventListener("click", () => speak("寶寶，我們一起學說話。", 0.75));
+    setupTabs();
+    setupFlash();
+    setupMouth();
+    setupSongs();
+  </script>
+</body>
+</html>
